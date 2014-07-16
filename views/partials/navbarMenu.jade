@@ -1,0 +1,36 @@
+div(ng-controller="NavbarMenuCtrl")
+        //Top navigation bar
+    nav.navbar.navbar-default(role='navigation')
+        .container-fluid
+            //
+               Brand and toggle get grouped for better mobile display
+            .navbar-header
+                button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a.navbar-brand(href='/home').jug-logo
+            //
+               Collect the nav links, forms, and other content for toggling
+            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li.active
+                        a(href='/home') Home
+                    li
+                        a(href='/archive') Archive
+
+                form.navbar-form.navbar-left(role='search')
+                    .form-group
+                        input.form-control(type='text', placeholder='Search')
+                    button.btn.btn-default(type='submit') Submit
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href='/login') Login
+                    li
+                        a(href='/register') Register
+
+
+    //AngularUI Collapsable Registration Form.
+    include register
+

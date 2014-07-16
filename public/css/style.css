@@ -1,0 +1,12 @@
+.jug-logo{
+    background-image: url('../img/JUG_Button.png');
+    height: 50px;
+    width: 50px;
+}
+
+form.ng-dirty.has-error{
+    color: #a94442;
+}
+input.ng-dirty.ng-invalid {
+    border: 1px solid red;
+}

@@ -1,0 +1,47 @@
+extends ../layout
+block content
+    div.row
+        form.form-horizontal.well.well-lg.col-md-offset-3.col-md-5(ng-submit="submitForm(registerForm.$valid)", name="registerForm")
+            fieldset
+                //
+                   Form Name
+                legend Register new user
+
+                .alert.alert-warning
+                    p Since this website does not use SSL, there is no chance to prevent Man-in-the-middle attacks - however the security "risk" is present <b>only</b> during registration.<br>So... you know.. keep that in mind when you want to use the same password you use for your Gmail, etc.
+                .alert.alert-danger(ng-show="formError")
+                    p {{formError}}
+
+                //
+                   Text input
+                .form-group(ng-class="{ 'has-error' : userForm.txtName.$invalid && !userForm.txtName.$pristine && submitted }")
+                    label.control-label(for='txtName') Username
+                    .controls
+                        input#txtName.input-xlarge.form-control(name='txtName', type='text', placeholder='Username', required, ng-model="formData.username")
+                //
+                   Password input
+                .form-group(ng-class="{ 'has-error' : userForm.txtPassword.$invalid && !userForm.txtPassword.$pristine && submitted }")
+                    label.control-label(for='txtPassword') Password
+                    .controls
+                        input#txtPassword.input-xlarge.form-control(name='txtPassword', type='password', placeholder='Password', required, ng-model="formData.password1", ng-minlength="5")
+                        span.help-block(style="margin-bottom:0px;") At least 5 characters long - I mean, c'mon I bet you can think of some password...
+                 //
+                   Password input
+                .form-group(ng-class="{ 'has-error' : userForm.txtPassword2.$invalid && !userForm.txtPassword2.$pristine && submitted }")
+                    label.control-label(for='txtPassword2') Re-enter password
+                    .controls
+                        input#txtPassword2.input-xlarge.form-control(name='txtPassword2', type='password', placeholder='Password', required, ng-model="formData.password2", ng-minlength="5")
+                        span.help-block(style="margin-bottom:0px;") Re-enter password, just to be sure.. You know the drill, right?
+
+                //
+                   Text input
+                .form-group(ng-class="{ 'has-error' : userForm.txtEmail.$invalid && !userForm.txtEmail.$pristine && submitted }")
+                    label.control-label(for='txtEmail') Email
+                    .controls
+                        input#txtEmail.input-xlarge.form-control(name='txtEmail', type='email', placeholder='Email', required, ng-model="formData.email")
+                //
+                   Button
+                .form-group
+                    label.control-label(for='btnOk')
+                    .controls
+                        button#btnOk.btn.btn-primary(name='btnOk', type="submit") Register me!
