@@ -8,15 +8,16 @@
                 h4#loginModalLabel.modal-title Login
             .modal-body
                 form.form-horizontal
+                    .well.well-danger(ng-show="loginError") {{loginError}}
                     fieldset
                         .form-group
                             label.col-md-4.control-label(for='txtUsername') Username
                             .col-md-4
-                                input#txtUsername.form-control.input-md(name='txtUsername', type='text', placeholder='Username', required='')
+                                input#txtUsername.form-control.input-md(name='txtUsername', type='text', placeholder='Username', required='', ng-model="loginData.username")
                         .form-group
                             label.col-md-4.control-label(for='txtPassword') Password
                             .col-md-4
-                                input#txtPassword.form-control.input-md(name='txtPassword', type='password', placeholder='Password', required='')
+                                input#txtPassword.form-control.input-md(name='txtPassword', type='password', placeholder='Password', required='', ng-model="loginData.password")
             .modal-footer
                 button.btn.btn-default(type='button', data-dismiss='modal') Close
                 button.btn.btn-primary(type='button', ng-click="actionLogin()") Login

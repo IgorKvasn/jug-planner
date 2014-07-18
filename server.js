@@ -37,7 +37,7 @@ app.get('/partials/:name', routes.partials);
 
 //API
 //app.get('/api/usersData', user.list);
-//app.get('/api/login', loginRoute.login);
+app.post('/api/login', routes.login);
 app.post('/api/register', routes.register);
 
 

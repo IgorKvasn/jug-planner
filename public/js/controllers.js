@@ -6,8 +6,18 @@ angular.module('JugPlanner.Controllers', []).
     }])
 
     .controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
+        $scope.loginError = null;
+        $scope.loginData = {};
+
         $scope.actionLogin = function(){
-            $('#loginModal').modal('hide')
+            $scope.loginError = null;
+            $http.post('/api/login', $scope.loginData).success(function (data) {
+                //todo perform login in client side
+                $('#loginModal').modal('hide');
+            }).error(function (err) {
+                $scope.loginError = err;
+            });
+
         }
     }])
 

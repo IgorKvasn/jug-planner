@@ -5,10 +5,6 @@ var password = require('password-hash-and-salt');
 var RSVP = require('rsvp');
 var connectionString = process.env.DATABASE_URL || 'postgres://postgres:heslo@localhost:5432/postgres';
 
-
-//var client = new pg.Client(connectionString);
-//client.connect();
-
 exports.register = function (userData) {
 
     return new RSVP.Promise(function (resolve, reject) {
@@ -95,5 +91,42 @@ exports.register = function (userData) {
             });
         })
     }
-}
-;
+};
+
+exports.login = function (userData) {
+
+    return new RSVP.Promise(function (resolve, reject) {
+        pg.connect(connectionString, function (err, client, done) {
+            if (err) {
+                log.error('error fetching client from pool', err);
+                reject(err);
+                return;
+            }
+            client.query('SELECT password FROM users WHERE username=$1', [userData.username.toLowerCase()], function (err, result) {
+                done();
+
+                if (err) {
+                    log.error(err);
+                    reject(err);
+                } else {
+                    if (result.rows.length === 0) {
+                        reject('Wrong username/password');
+                    } else {
+                        password(userData.password).verifyAgainst(result.rows[0].password, function (error, verified) {
+                            if (error) {
+                                reject('Cannot verify password - server error.');
+                                return;
+                            }
+                            if (!verified) {
+                                reject('Wrong username/password');
+                            } else {
+                                resolve();
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+    });
+};

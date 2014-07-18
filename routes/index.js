@@ -16,3 +16,11 @@ exports.register = function (req, res) {
         res.status(500).send(err);
     });
 };
+
+exports.login = function (req, res){
+    db.login(req.body).then(function(result){
+        res.status(200).send('');
+    }).catch(function(err){
+        res.status(403).send(err);
+    });
+};
