@@ -36,3 +36,6 @@ Client side :
 1. git checkout
 2. run `npm install` (you need to have *npm* as well as *bower* installed)
 3. run `node server.js`
+
+
+This piece of code is licenced under [Creative Commons Attribution NonCommercial](https://tldrlegal.com/license/creative-commons-attribution-noncommercial-\(cc-nc\)) licence
