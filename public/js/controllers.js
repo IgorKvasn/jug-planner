@@ -3,12 +3,12 @@
 angular.module('JugPlanner.Controllers', []).
     //Collapse-able registration form controller.
     controller('NavbarMenuCtrl', ['$scope', '$http', function ($scope, $http) {
-        //This property is used for collapse-able div
-      $scope.pokus='aaaa';
     }])
 
     .controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
-
+        $scope.actionLogin = function(){
+            $('#loginModal').modal('hide')
+        }
     }])
 
     .controller('RegistrationCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -16,6 +16,7 @@ angular.module('JugPlanner.Controllers', []).
         $scope.passwordsMatch = true;
         $scope.formData = {};
         $scope.formError = null;
+        $scope.registrationSuccessful = false;
 
         $scope.submitForm = function(isValid) {
             $scope.formError = null;
@@ -31,7 +32,7 @@ angular.module('JugPlanner.Controllers', []).
                 }
 
                 $http.post('/api/register', $scope.formData).success(function (data) {
-                    alert(data);
+                    $scope.registrationSuccessful = true;
 
                 }).error(function (err) {
                     $scope.formError = err;

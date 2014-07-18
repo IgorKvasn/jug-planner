@@ -31,3 +31,8 @@ Used **Node.js** modules :
 Client side :
  - AngularJS + AngularUI
  - Bootstrap 3
+
+## Installation manual
+1. git checkout
+2. run `npm install` (you need to have *npm* as well as *bower* installed)
+3. run `node server.js`

@@ -1,0 +1,22 @@
+#loginModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='loginModalLabel', aria-hidden='true', ng-controller="LoginCtrl")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal')
+                    span(aria-hidden='true') ×
+                    span.sr-only Close
+                h4#loginModalLabel.modal-title Login
+            .modal-body
+                form.form-horizontal
+                    fieldset
+                        .form-group
+                            label.col-md-4.control-label(for='txtUsername') Username
+                            .col-md-4
+                                input#txtUsername.form-control.input-md(name='txtUsername', type='text', placeholder='Username', required='')
+                        .form-group
+                            label.col-md-4.control-label(for='txtPassword') Password
+                            .col-md-4
+                                input#txtPassword.form-control.input-md(name='txtPassword', type='password', placeholder='Password', required='')
+            .modal-footer
+                button.btn.btn-default(type='button', data-dismiss='modal') Close
+                button.btn.btn-primary(type='button', ng-click="actionLogin()") Login

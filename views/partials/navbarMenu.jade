@@ -1,5 +1,4 @@
 div(ng-controller="NavbarMenuCtrl")
-        //Top navigation bar
     nav.navbar.navbar-default(role='navigation')
         .container-fluid
             //
@@ -26,11 +25,10 @@ div(ng-controller="NavbarMenuCtrl")
                     button.btn.btn-default(type='submit') Submit
                 ul.nav.navbar-nav.navbar-right
                     li
-                        a(href='/login') Login
+                        a(href="#", data-toggle="modal", data-target="#loginModal") Login
                     li
                         a(href='/register') Register
 
 
-    //AngularUI Collapsable Registration Form.
-    include register
+    include loginForm
 
