@@ -2,9 +2,11 @@
 
 var JugPlanner = angular.module('JugPlanner', [
     'ui.bootstrap',
+    'JugPlanner.Services',
     'JugPlanner.Controllers',
     'ngRoute',
-    'ngLocale']);
+    'ngLocale'
+    ]);
 
 //AngularJS Routes
 JugPlanner.config(['$routeProvider', '$locationProvider',

@@ -23,12 +23,16 @@ div(ng-controller="NavbarMenuCtrl")
                     .form-group
                         input.form-control(type='text', placeholder='Search')
                     button.btn.btn-default(type='submit') Submit
-                ul.nav.navbar-nav.navbar-right
+                ul.nav.navbar-nav.navbar-right(ng-hide="getUserLogged()")
                     li
                         a(href="#", data-toggle="modal", data-target="#loginModal") Login
                     li
                         a(href='/register') Register
-
-
+                ul.nav.navbar-nav.navbar-right(ng-show="getUserLogged()")
+                    li
+                        a(href="/userDetails") {{getUserLogged().username}}
+                    li
+                        a(href="#", data-toggle="modal", data-target="#logoutModal") Logout
     include loginForm
+    include logoutForm
 

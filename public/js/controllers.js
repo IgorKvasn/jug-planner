@@ -1,24 +1,32 @@
 'use strict';
 
-angular.module('JugPlanner.Controllers', []).
-    //Collapse-able registration form controller.
-    controller('NavbarMenuCtrl', ['$scope', '$http', function ($scope, $http) {
+angular.module('JugPlanner.Controllers', ['JugPlanner.Services']).
+    controller('NavbarMenuCtrl', ['$scope', '$http', 'LoginService', function ($scope, $http, loginService) {
+        $scope.getUserLogged = function () {
+            return loginService.getUserLogged();
+        }
     }])
 
-    .controller('LoginCtrl', ['$scope', '$http', function ($scope, $http) {
+    .controller('LoginCtrl', ['$scope', '$http', 'LoginService', function ($scope, $http, loginService) {
         $scope.loginError = null;
         $scope.loginData = {};
 
-        $scope.actionLogin = function(){
+         $scope.actionLogin = function () {
             $scope.loginError = null;
             $http.post('/api/login', $scope.loginData).success(function (data) {
-                //todo perform login in client side
+                loginService.setUserLogged($scope.loginData.username);
                 $('#loginModal').modal('hide');
             }).error(function (err) {
                 $scope.loginError = err;
             });
 
-        }
+        };
+
+        $scope.actionLogout = function () {
+            //todo server-side logout
+            loginService.clearLoggedUser();
+            $('#logoutModal').modal('hide');
+        };
     }])
 
     .controller('RegistrationCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -28,13 +36,13 @@ angular.module('JugPlanner.Controllers', []).
         $scope.formError = null;
         $scope.registrationSuccessful = false;
 
-        $scope.submitForm = function(isValid) {
+        $scope.submitForm = function (isValid) {
             $scope.formError = null;
             $scope.submitted = true;
             $scope.passwordsMatch = true;
 
             if (isValid) {
-                if (!matchPasswords()){
+                if (!matchPasswords()) {
                     $scope.formError = 'Passwords do not match';
                     $scope.formData.password1 = '';
                     $scope.formData.password2 = '';
@@ -50,7 +58,7 @@ angular.module('JugPlanner.Controllers', []).
 
             }
 
-            function matchPasswords(){
+            function matchPasswords() {
                 return $scope.formData.password1 === $scope.formData.password2;
             }
         };

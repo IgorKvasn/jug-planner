@@ -1,0 +1,14 @@
+#logoutModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='logoutModalLabel', aria-hidden='true', ng-controller="LoginCtrl")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal')
+                    span(aria-hidden='true') ×
+                    span.sr-only Close
+                h4#logoutModalLabel.modal-title Logout
+            .modal-body
+                form.form-horizontal
+                    p Are you sure you want to logout?
+            .modal-footer
+                button.btn.btn-primary(type='button', ng-click="actionLogout()") Yes
+                button.btn.btn-default(type='button', data-dismiss='modal') No
