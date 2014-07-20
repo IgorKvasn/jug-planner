@@ -15,6 +15,9 @@ JugPlanner.config(['$routeProvider', '$locationProvider',
             when('/register', {
                 templateUrl: 'partials/register',
                 controller: 'RegistrationCtrl'
+            }).when('/archive', {
+                templateUrl: 'partials/archive',
+                controller: 'ArchiveCtrl'
             });
         $locationProvider.html5Mode(true);
     }]);

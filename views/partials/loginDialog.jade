@@ -8,7 +8,7 @@
                 h4#loginModalLabel.modal-title Login
             .modal-body
                 form.form-horizontal
-                    .well.well-danger(ng-show="loginError") {{loginError}}
+                    .alert.alert-danger(ng-show="loginError") {{loginError}}
                     fieldset
                         .form-group
                             label.col-md-4.control-label(for='txtUsername') Username

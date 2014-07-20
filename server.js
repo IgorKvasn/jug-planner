@@ -4,10 +4,12 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
+var routes = require('./server/routes');
 var http = require('http');
 var path = require('path');
 var log = require('winston');
+var mongoose = require('mongoose');
+var fs = require('fs');
 
 
 var app = express();
@@ -24,6 +26,24 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+//MongoDB connection.
+mongoose.connect('mongodb://localhost/JugPlanner');
+var db = mongoose.connection;
+//When connection error happens, display an error message.
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function(){
+    console.log('Connected to MongoDB.');
+});
+
+//load all MongoDB models
+fs.readdirSync(__dirname + '/server/models').forEach(function(f){
+    if (~f.indexOf('.js')){
+        log.info('Loading MongoDB model: ' + f);
+        require(__dirname + '/server/models/' + f);
+    }
+
+});
+
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -32,13 +52,16 @@ if ('development' == app.get('env')) {
 
 //Routes
 app.get('/', routes.index);
-//This lets AngularJS route to use files in views/partials
 app.get('/partials/:name', routes.partials);
 
 //API
-//app.get('/api/usersData', user.list);
 app.post('/api/login', routes.login);
+app.post('/api/logout', routes.logout);
 app.post('/api/register', routes.register);
+app.post('/api/event', routes.event.add);
+app.get('/api/event', routes.event.readAll);
+//app.get('/api/event/:id', routes.event.readOne);
+
 
 
 http.createServer(app).listen(app.get('port'), function(){

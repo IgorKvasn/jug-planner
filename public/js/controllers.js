@@ -23,9 +23,13 @@ angular.module('JugPlanner.Controllers', ['JugPlanner.Services']).
         };
 
         $scope.actionLogout = function () {
-            //todo server-side logout
-            loginService.clearLoggedUser();
-            $('#logoutModal').modal('hide');
+
+            $http.post('/api/logout', {username:loginService.getUserLogged().username}).success(function (data) {
+                loginService.clearLoggedUser();
+                $('#logoutModal').modal('hide');
+            }).error(function (err) {
+                $scope.logoutError = err;
+            });
         };
     }])
 
@@ -64,9 +68,9 @@ angular.module('JugPlanner.Controllers', ['JugPlanner.Services']).
         };
     }])
 
-    .controller('UserListCtrl', ['$scope', '$http', function ($scope, $http) {
-        $scope.userList = "";
-        $http.get('/api/usersData').success(function (data) {
-            $scope.userList = data;
-        });
+    .controller('ArchiveCtrl', ['$scope', '$http', function ($scope, $http) {
+//        $scope.userList = "";
+//        $http.get('/api/usersData').success(function (data) {
+//            $scope.userList = data;
+//        });
     }]);
