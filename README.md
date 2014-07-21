@@ -22,7 +22,7 @@ Known issues:
  * strings are hard-coded (on client as well as server side)
  
 Used DB : 
- - PostgreSQL
+ - MongoDB
 
 Used **Node.js** modules :
  - Express 3 + Jade
