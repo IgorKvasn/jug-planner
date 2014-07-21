@@ -14,7 +14,7 @@ var _ = require("lodash");
 exports.addEvent = function (event) {
 
     return new RSVP.Promise(function (resolve, reject) {
-        if (!event || !event.date) {
+        if (!event || !event.location) {
             reject('Invalid new event data');
             return;
         }
@@ -38,9 +38,35 @@ exports.addEvent = function (event) {
     });
 
 };
+/**
+ * input param:
+ *  - id (MongoDB event ID!!!)
+ *  - location
+ *  - date
+ * @param event
+ * @returns {exports.Promise}
+ */
+exports.updateEvent = function(event){
+    return new RSVP.Promise(function (resolve, reject) {
+        if (!event || !event.id) {
+            reject('Invalid new event data');
+            return;
+        }
+
+        EventModel.where('_id', event.id).update({$set: {date: event.date, location:event.location}}, function (err, count) {
+            if (err) {
+                log.error(err);
+                reject(err);
+            } else {
+                log.debug('Event updated');
+                resolve('ok');
+            }
+        });
+    });
+};
 
 /**
- * returns collection of events:
+ * returns collection of events; collection is sorted from newest to oldest:
  * - location
  * - date
  * - MongoDB ID
@@ -48,21 +74,23 @@ exports.addEvent = function (event) {
  */
 exports.readAllEvents = function () {
     return new RSVP.Promise(function (resolve, reject) {
-        EventModel.find({}, function (err, events) {
-            if (err) {
-                log.error(err);
-                reject(err);
-            } else {
-                var result = _.map(events, function(e){
-                    return {
-                        location: e.location,
-                        date: e.date,
-                        id: e._id
-                    };
-                });
+        EventModel.find({}, 'location date _id')
+            .sort('-date')
+            .exec( function(err, events) {
+                if (err) {
+                    log.error(err);
+                    reject(err);
+                } else {
+                    var result = _.map(events, function(e){
+                        return {
+                            location: e.location,
+                            date: e.date,
+                            id: e._id
+                        };
+                    });
 
-                resolve(result);
-            }
-        });
+                    resolve(result);
+                }
+            });
     });
 };

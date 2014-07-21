@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var eventSchema = new Schema({
-    date:{ type: Date, required: true},
+    date:{ type: Date}, //if date not specified, this is a upcoming event
     location:{ type: String, required: true}
 });
 

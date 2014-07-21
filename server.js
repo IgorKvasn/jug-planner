@@ -60,6 +60,7 @@ app.post('/api/logout', routes.logout);
 app.post('/api/register', routes.register);
 app.post('/api/event', routes.event.add);
 app.get('/api/event', routes.event.readAll);
+app.put('/api/event', routes.event.update);
 //app.get('/api/event/:id', routes.event.readOne);
 
 

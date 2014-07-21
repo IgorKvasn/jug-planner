@@ -2,7 +2,7 @@ var log = require('winston');
 var errors = require('./errors');
 var password = require('password-hash-and-salt');
 var RSVP = require('rsvp');
-var UserModel = require('../models/users').User;
+var TopicModel = require('../models/topics').Topic;
 
 /**
  * topic:
@@ -17,7 +17,7 @@ exports.addTopic = function (topic) {
 
     return new RSVP.Promise(function (resolve, reject) {
 
-            var newTopic = new UserModel({
+            var newTopic = new TopicModel({
                 name:topic.name,
 //TODO                userId:{type: Schema.ObjectId, required: true, ref: 'users'},
 //TODO                eventId:{type: Schema.ObjectId, required: true, ref:'events'},
