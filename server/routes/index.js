@@ -76,6 +76,15 @@ event.update = function(req,res){
     });
 };
 
+event.readOne = function(req, res){
+    db.event.readEvent(req.params.id).then(function(result){
+        res.status(200).json(result);
+    }).catch(function(err){
+        log.error(err.message);
+        res.status(500).send(err);
+    });
+};
+
 event.add = function (req, res){
     //check if authorized
     var logged = userManager.getUserLogged(req.body.username);

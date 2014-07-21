@@ -17,23 +17,34 @@ exports.addTopic = function (topic) {
 
     return new RSVP.Promise(function (resolve, reject) {
 
-            var newTopic = new TopicModel({
-                name:topic.name,
-//TODO                userId:{type: Schema.ObjectId, required: true, ref: 'users'},
-//TODO                eventId:{type: Schema.ObjectId, required: true, ref:'events'},
-                keywords: topic.keywords,
-                description:topic.description
-            });
+        if (!topic){
+            reject('Invalid topic data');
+            return;
+        }
+
+        if (!topic.keywords){
+            topic.keywords = '';
+        }else{
+            topic.keywords = topic.keywords.split(',');
+        }
+
+        var newTopic = new TopicModel({
+            name: topic.name,
+            userId: topic.userId,
+            eventId: topic.eventId,
+            keywords: topic.keywords,
+            description: topic.description
+        });
 
         newTopic.save(function (err, newTopic) {
-                if (err) {
-                    log.error(err);
-                    reject(err);
-                } else {
-                    log.debug('Topic saved: ' + JSON.stringify(newTopic));
-                    resolve();
-                }
-            });
+            if (err) {
+                log.error(err);
+                reject(err);
+            } else {
+                log.debug('Topic saved: ' + JSON.stringify(newTopic));
+                resolve();
+            }
+        });
 
 
     });
