@@ -103,3 +103,34 @@ event.add = function (req, res){
 };
 
 exports.event = event;
+
+
+var topic = {};
+
+topic.add = function (req, res){
+    //check if authorized
+    var logged = userManager.getUserLogged(req.body.username);
+
+    if (!logged || logged.role !== userManager.userRoles.admin){
+        res.status(403).send('Not authorized user ' + req.body.username);
+        return;
+    }
+
+    db.topics.addTopic(req.body.topic).then(function(result){
+        res.status(200).send('');
+    }).catch(function(err){
+        log.error(err.message);
+        res.status(500).send(err);
+    });
+};
+
+topic.readByEvent = function(req, res){
+    db.topics.readTopicByEvent(req.params.id).then(function(result){
+        res.status(200).json(result);
+    }).catch(function(err){
+        log.error(err.message);
+        res.status(500).send(err);
+    });
+};
+
+exports.topic = topic;

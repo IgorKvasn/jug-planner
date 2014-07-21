@@ -17,14 +17,14 @@ exports.addTopic = function (topic) {
 
     return new RSVP.Promise(function (resolve, reject) {
 
-        if (!topic){
+        if (!topic) {
             reject('Invalid topic data');
             return;
         }
 
-        if (!topic.keywords){
+        if (!topic.keywords) {
             topic.keywords = '';
-        }else{
+        } else {
             topic.keywords = topic.keywords.split(',');
         }
 
@@ -49,4 +49,23 @@ exports.addTopic = function (topic) {
 
     });
 
+};
+
+exports.readTopicByEvent = function (eventId) {
+
+    return new RSVP.Promise(function (resolve, reject) {
+        if (!eventId) {
+            reject('Incomplete eventId');
+            return;
+        }
+
+        TopicModel.find({ eventId: eventId }, 'name userId eventId keywords description', function (err, topics) {
+            if (err) {
+                log.error(err);
+                reject(err);
+            } else {
+                resolve(topics); //todo perhaps return 404 if no topic is found - to act REST-ish
+            }
+        });
+    })
 };

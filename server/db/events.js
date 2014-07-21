@@ -4,6 +4,7 @@ var password = require('password-hash-and-salt');
 var RSVP = require('rsvp');
 var EventModel = require('../models/events').Event;
 var _ = require("lodash");
+var topicDb = require('./topics');
 
 /**
  * event:
@@ -72,7 +73,7 @@ exports.updateEvent = function (event) {
  * - MongoDB ID
  * @returns {exports.Promise}
  */
-exports.readAllEvents = function () {
+var readAllEvents = function () {
     return new RSVP.Promise(function (resolve, reject) {
         EventModel.find({}, 'location date _id')
             .sort('-date')
@@ -94,10 +95,31 @@ exports.readAllEvents = function () {
             });
     });
 };
+exports.readAllEvents = readAllEvents;
+
+
+//todo test me
+exports.readAllEventsWithTopics = function () {
+    return new RSVP.Promise(function (resolve, reject) {
+
+        readAllEvents().then(function(events){
+            _.map(events, function(event){
+                var topics = topicDb.readTopicByEvent(event.id);
+                return {
+                    event: event,
+                    topics: topics
+                }
+            });
+        }).catch(function (err) {
+                reject(err);
+            }
+        );
+    });
+};
 
 exports.readEvent = function (eventId) {
     return new RSVP.Promise(function (resolve, reject) {
-        if (!eventId){
+        if (!eventId) {
             reject('Invalid eventId');
             return;
         }
@@ -113,3 +135,4 @@ exports.readEvent = function (eventId) {
             });
     });
 };
+

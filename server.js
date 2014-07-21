@@ -65,6 +65,9 @@ app.put('/api/event', routes.event.update);
 app.get('/api/event/:id', routes.event.readOne);
 
 
+app.post('/api/topic/', routes.topic.add);
+app.get('/api/topic/:id', routes.topic.readByEvent);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
