@@ -4,7 +4,6 @@ var password = require('password-hash-and-salt');
 var RSVP = require('rsvp');
 var EventModel = require('../models/events').Event;
 var _ = require("lodash");
-var topicDb = require('./topics');
 
 /**
  * event:
@@ -96,26 +95,6 @@ var readAllEvents = function () {
     });
 };
 exports.readAllEvents = readAllEvents;
-
-
-//todo test me
-exports.readAllEventsWithTopics = function () {
-    return new RSVP.Promise(function (resolve, reject) {
-
-        readAllEvents().then(function(events){
-            _.map(events, function(event){
-                var topics = topicDb.readTopicByEvent(event.id);
-                return {
-                    event: event,
-                    topics: topics
-                }
-            });
-        }).catch(function (err) {
-                reject(err);
-            }
-        );
-    });
-};
 
 exports.readEvent = function (eventId) {
     return new RSVP.Promise(function (resolve, reject) {

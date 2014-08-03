@@ -3,6 +3,7 @@ var errors = require('./errors');
 var password = require('password-hash-and-salt');
 var RSVP = require('rsvp');
 var TopicModel = require('../models/topics').Topic;
+var _ = require('lodash');
 
 /**
  * topic:
@@ -68,4 +69,25 @@ exports.readTopicByEvent = function (eventId) {
             }
         });
     })
+};
+
+exports.readAllEventsWithTopics = function () {
+    return new RSVP.Promise(function (resolve, reject) {
+
+        TopicModel.find({})
+            .populate('userId eventId')
+            .sort('-date')
+            .exec(function (err, topics) {
+                if (err) {
+                    log.error(err);
+                    reject(err);
+                } else {
+                    resolve(_.map(topics, function(t){
+                        t.userId.__v = null;
+                        t.eventId.__v = null;
+                        return t;
+                    }));
+                }
+            });
+    });
 };

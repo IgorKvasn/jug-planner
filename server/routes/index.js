@@ -102,6 +102,15 @@ event.add = function (req, res){
     });
 };
 
+event.readAllTopics = function(req, res){
+    db.topics.readAllEventsWithTopics().then(function(result){
+        res.status(200).json(result);
+    }).catch(function(err){
+        log.error(err.message);
+        res.status(500).send(err);
+    });
+};
+
 exports.event = event;
 
 
