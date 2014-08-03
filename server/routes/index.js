@@ -1,12 +1,23 @@
 var db = require('../db');
 var userManager = require('../userManager');
 var log = require('winston');
+var _ = require('lodash');
 
 exports.index = function (req, res) {
     res.render('index');
 };
 
 exports.archive = function (req, res) {
+    db.archive.archive().then(function(events){
+        res.render('archive',{events:events});
+    }).catch(function(err){
+        log.error(err.message);
+        res.status(500).send(err);
+    });
+
+};
+
+exports.newTopic = function (req, res) {
     db.archive.overview().then(function(events){
         res.render('archive',{events:events});
     }).catch(function(err){
@@ -16,6 +27,7 @@ exports.archive = function (req, res) {
 
 };
 
+
 exports.partials = function (req, res) {
     var name = req.params.name;
     res.render('partials/' + name);
@@ -24,6 +36,28 @@ exports.partials = function (req, res) {
 exports.register = function (req, res) {
     db.auth.register(req.body).then(function(result){
         res.status(200).send('');
+    }).catch(function(err){
+        log.error(err.message);
+        res.status(500).send(err);
+    });
+};
+
+exports.users = function(req, res){
+    db.auth.readUsers().then(function(result){
+
+        if (req.query.dest==='autocomplete'){
+            var re = _.map(result, function(user){
+                return {
+                    _id:user._id,
+                    text:user.name
+                }
+
+            });
+
+            res.status(200).json(re);
+        }else{
+            res.status(200).json(result);
+        }
     }).catch(function(err){
         log.error(err.message);
         res.status(500).send(err);

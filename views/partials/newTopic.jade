@@ -1,0 +1,30 @@
+form.form-horizontal
+        form
+    .alert.alert-danger(ng-show='error')
+        p {{error}}
+    .row.col-md-offset-1
+        //
+           Form Name
+        legend Create new JUG topic
+
+        //
+           Text input
+        .row
+            label.col-md-2(for='txtName') Name of the topic
+            input#txtName.input-md.col-md-5(name='txtName', type='text', placeholder='Name of the topic', required='', ng-model="name")
+        //
+           Text input
+        .row
+            label.col-md-2(for='textUsers') Authors
+            tags-input#textUsers.input-md.col-md-4( ng-model="users", add-from-autocomplete-only='true',style='padding-left:0;',min-length="1",placeholder='One or more authors', min-tags=1)
+                auto-complete(source='loadUsers()',min-length="0", debounce-delay="0")
+        //
+           Textarea
+        .row
+            label.col-md-2(for='txtDescription') Description
+            textarea.col-md-4#txtDescription(name='txtDescription', ng-model='description')
+        //
+           Button
+        .row
+            label.col-md-2(for='btnCreate')
+            button#btnCreate.btn.btn-primary.col-md-1(name='btnCreate', ng-click="createTopic()") Create this topic

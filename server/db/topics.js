@@ -10,7 +10,6 @@ var _ = require('lodash');
  *  - name
  *  - user
  *  - event
- *  - keywords
  *  - description
  */
 
@@ -23,17 +22,10 @@ exports.addTopic = function (topic) {
             return;
         }
 
-        if (!topic.keywords) {
-            topic.keywords = '';
-        } else {
-            topic.keywords = topic.keywords.split(',');
-        }
-
         var newTopic = new TopicModel({
             name: topic.name,
             userId: topic.userId,
             eventId: topic.eventId,
-            keywords: topic.keywords,
             description: topic.description
         });
 
@@ -60,7 +52,7 @@ exports.readTopicByEvent = function (eventId) {
             return;
         }
 
-        TopicModel.find({ eventId: eventId }, 'name userId eventId keywords description', function (err, topics) {
+        TopicModel.find({ eventId: eventId }, 'name userId eventId description', function (err, topics) {
             if (err) {
                 log.error(err);
                 reject(err);

@@ -134,3 +134,16 @@ exports.logout = function (username) {
         resolve();
     })
 };
+
+exports.readUsers = function(){
+    return new RSVP.Promise(function (resolve, reject) {
+        UserModel.find({ }, '_id name', function (err, users) {
+            if (err) {
+                log.error(err);
+                reject(err);
+            } else {
+               resolve(users)
+            }
+        });
+    })
+};

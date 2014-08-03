@@ -73,4 +73,16 @@ angular.module('JugPlanner.Controllers', ['JugPlanner.Services']).
 //        $http.get('/api/usersData').success(function (data) {
 //            $scope.userList = data;
 //        });
+    }]).
+    controller('NewTopicCtrl', ['$scope', '$http', function ($scope, $http) {
+        $scope.name = '';
+        $scope.description = '';
+        $scope.error = '';
+
+        $scope.users = [
+        ];
+
+        $scope.loadUsers = function(query){
+           return  $http.get('/api/user?dest=autocomplete');
+        };
     }]);

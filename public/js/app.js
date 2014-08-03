@@ -2,6 +2,7 @@
 
 var JugPlanner = angular.module('JugPlanner', [
     'ui.bootstrap',
+    'ngTagsInput',
     'JugPlanner.Services',
     'JugPlanner.Controllers',
     'ngRoute',
@@ -18,6 +19,9 @@ JugPlanner.config(['$routeProvider', '$locationProvider',
             }).when('/archive', {
                 templateUrl: 'partials/archive',
                 controller: 'ArchiveCtrl'
+            }).when('/newTopic', {
+                templateUrl: 'partials/newTopic',
+                controller: 'NewTopicCtrl'
             });
         $locationProvider.html5Mode(true);
     }]);

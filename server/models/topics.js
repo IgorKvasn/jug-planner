@@ -5,7 +5,6 @@ var topicSchema = new Schema({
     name:{ type: String, required: true},
     userId:{type: Schema.ObjectId, required: true, ref: 'users'},
     eventId:{type: Schema.ObjectId, required: true, ref:'events'},
-    keywords: {type:String},
     description:{type:String}
 });
 
